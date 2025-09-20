@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    kubearmor-app: kubearmor
+  name: kubearmor
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      kubearmor-app: kubearmor
+  template:
+    metadata:
+      annotations:
+        container.apparmor.security.beta.kubernetes.io/kubearmor: unconfined
+      labels:
+        kubearmor-app: kubearmor
+    spec:
+      containers:
+      - name: kubearmor
+        image: kubearmor/kubearmor:latest
+        imagePullPolicy: Always
+        args:
+          - -gRPC=32767
+        ports:
+          - containerPort: 32767
+        env:
+          - name: KUBEARMOR_NODENAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+      hostNetwork: true
+      hostPID: true
+      nodeSelector:
+        kubernetes.io/os: linux
+      serviceAccountName: kubearmor

@@ -1,0 +1,17 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: deny-writes
+  namespace: default
+spec:
+  severity: 5
+  selector:
+    matchLabels:
+      app: wisecow
+  file:
+    matchDirectories:
+      - dir: /app/
+        recursive: true
+  action: Block
+
+

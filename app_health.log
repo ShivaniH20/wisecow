@@ -1,0 +1,4 @@
+2025-09-20 11:17:28,692 WARNING: DOWN: http://localhost:8080/ -> HTTP 404
+2025-09-20 11:19:56,705 WARNING: DOWN: http://localhost:8080/home -> HTTP 404
+2025-09-20 11:25:35,924 ERROR: ERROR: Could not reach http://localhost:8080/ -> ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2025-09-20 11:34:21,961 INFO: UP: http://localhost:8080/ -> HTTP 200
