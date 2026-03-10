@@ -2,10 +2,10 @@ name: Wisecow CI/CD
 
 on:
   push:
-    branches: [ "master" ] # Triggers on every push to master
+    branches: [ "master" ]
 
 jobs:
-  build-and-deploy:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -16,8 +16,9 @@ jobs:
           docker build . -t wisecow-app:latest
           echo "Docker image built successfully"
 
-      - name: Kubernetes Manifest Validation
+      - name: Validate Kubernetes Manifests
         run: |
-          # This shows you care about code quality
-          kubectl auth can-i create deployments --dry-run=client
-          echo "Manifests are ready for deployment"
+          # This checks if your YAML files are formatted correctly
+          # without needing a live connection to a cluster
+          kubectl apply --dry-run=client -f k8s/
+          echo "All manifests in k8s/ folder are valid."
