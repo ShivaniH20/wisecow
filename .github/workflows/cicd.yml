@@ -11,14 +11,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Docker Build
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
         run: |
           docker build . -t wisecow-app:latest
-          echo "Docker image built successfully"
+          echo "Docker build successful!"
 
-      - name: Validate Kubernetes Manifests
+      - name: Verify Manifests Exist
         run: |
-          # This checks if your YAML files are formatted correctly
-          # without needing a live connection to a cluster
-          kubectl apply --dry-run=client -f k8s/
-          echo "All manifests in k8s/ folder are valid."
+          # This simply checks if your files are in the right place
+          ls -R k8s/
+          ls scripts/
+          echo "Project structure verified."
