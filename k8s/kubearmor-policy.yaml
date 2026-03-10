@@ -1,0 +1,19 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: block-pkg-mgr
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: wisecow
+  process:
+    matchDirectories:
+      - directory: /usr/bin/apt/
+        recursive: true
+    action: Block
+  file:
+    matchDirectories:
+      - directory: /etc/
+        recursive: true
+    action: Audit

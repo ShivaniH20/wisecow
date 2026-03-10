@@ -1,17 +1,20 @@
-# Use a small Linux image
-FROM alpine:3.18
+FROM ubuntu:22.04
 
-# Set the working directory
-WORKDIR /app
+# Install app dependencies
+RUN apt-get update && apt-get install -y \
+    fortune-mod \
+    cowsay \
+    netcat-openbsd \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy all files into the container
-COPY . /app
+# Add games to path so 'cowsay' and 'fortune' work
+ENV PATH="${PATH}:/usr/games"
 
-# Make the script executable
-RUN chmod +x wisecow.sh
+# Copy the script into the container
+COPY wisecow.sh /usr/local/bin/wisecow.sh
+RUN chmod +x /usr/local/bin/wisecow.sh
 
-# Expose the port that the script serves on (default 8000)
-EXPOSE 8000
+EXPOSE 4499
 
-# Run the script when the container starts
-CMD ["./wisecow.sh"]
+# Execute the script
+CMD ["/usr/local/bin/wisecow.sh"]
